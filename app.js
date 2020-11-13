@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 require('dotenv').config();
 require('./config/db');
 
@@ -34,11 +32,9 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.errorMessage = err.message || 'Internal Server Error';
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
