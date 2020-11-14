@@ -9,11 +9,15 @@ const app = express();
 
 app.use(cors());
 
+const path = require('path');
 const logger = require('morgan');
 
 const userRouter = require('./routes/user');
 const usersRouter = require('./routes/users');
 const photosRouter = require('./routes/photos');
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(cookieParser());
