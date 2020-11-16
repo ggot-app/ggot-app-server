@@ -11,6 +11,18 @@ exports.getLogin = async (req, res, next) => {
 
   try {
     const targetUser = await User.findOne({ email: email });
+    // const {
+    //   _id,
+    //   photos,
+    //   email,
+    //   profile_url} = targetUser;
+
+    // const userData = {
+    //   _id: _id,
+    //   email: email,
+    //   profile_url: profile_url,
+    //   photos: photos
+    // };
 
     if (!targetUser) {
       const userData = {
