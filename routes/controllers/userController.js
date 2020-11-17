@@ -7,37 +7,26 @@ const { errorMessage } = require('../../constants/errorMessage');
 const SECRET_KEY = process.env.SECRET_KEY;
 
 exports.getLogin = async (req, res, next) => {
-  console.log('req', req);
   const { email, profileUrl } = req.body;
+  let ggotUser;
 
   try {
-    const targetUser = await User.findOne({ email: email });
-    // const {
-    //   _id,
-    //   photos,
-    //   email,
-    //   profile_url} = targetUser;
+    ggotUser = await User.findOne({ email: email });
 
-    // const userData = {
-    //   _id: _id,
-    //   email: email,
-    //   profile_url: profile_url,
-    //   photos: photos
-    // };
-
-    if (!targetUser) {
+    if (!ggotUser) {
       const userData = {
         email: email,
         profile_url: profileUrl,
         photos: []
       };
 
-      await User.create(userData);
+      ggotUser = await User.create(userData);
     }
 
     return res.status(201).json({
       result: statusMessage.success,
-      token: jwt.sign(email, SECRET_KEY)
+      token: jwt.sign(email, SECRET_KEY),
+      ggotUser
     });
   } catch (err) {
     return res.status(400).json({
