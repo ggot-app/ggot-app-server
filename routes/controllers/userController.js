@@ -7,6 +7,7 @@ const { errorMessage } = require('../../constants/errorMessage');
 const SECRET_KEY = process.env.SECRET_KEY;
 
 exports.getLogin = async (req, res, next) => {
+  console.log('req', req);
   const { email, profileUrl } = req.body;
 
   try {
