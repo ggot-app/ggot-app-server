@@ -10,9 +10,8 @@ const photoSchema = new mongoose.Schema({
     type: Map,
     of: String
   },
-  photo_url: {
-    type: String,
-    unique: true,
+  photo_url_list: {
+    type: Array,
     required: true,
     trim: true
   },
