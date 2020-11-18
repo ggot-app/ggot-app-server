@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 
 const photoSchema = new mongoose.Schema({
   resistered_by: {
-    type: mongoose.ObjectId,
-    required: true,
-    ref: 'User'
+    type: String,
+    required: true
   },
   location: {
-    type: Map,
-    of: String
+    type: Array,
+    required: true,
+    trim: true
   },
   photo_url_list: {
     type: Array,

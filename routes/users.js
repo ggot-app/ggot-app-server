@@ -10,11 +10,10 @@ router.get('/:userId/photos', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-// uploadPhoto.array('img', 5)
 router.post('/:userId/photos',
   verifyToken,
   uploadPhoto.array('image', 5),
-  usersController.savePhotos
+  usersController.savePhotos,
 );
 
 module.exports = router;
