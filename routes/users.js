@@ -5,10 +5,10 @@ const { verifyToken } = require('./middlewares/authorization');
 const { uploadPhoto } = require('./middlewares/uploadPhotos');
 const usersController = require('./controllers/usersController');
 
-/* GET users listing. */
-router.get('/:userId/photos', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/:userId/photos',
+  verifyToken,
+  usersController.getPhotoListByUserId
+);
 
 router.post('/:userId/photos',
   verifyToken,

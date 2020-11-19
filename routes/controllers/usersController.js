@@ -54,3 +54,21 @@ exports.savePhotos = async (req, res, next) => {
     });
   }
 };
+
+exports.getPhotoListByUserId = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const PhotoListByUserId = await User.findById(userId).populate('photos');
+    const { photos } = PhotoListByUserId;
+
+    return res.status(200).json({
+      result: statusMessage.success,
+      photos
+    });
+  } catch (err) {
+    error.status =  500;
+
+    next(); //미완성의 에러처리...
+  }
+};
