@@ -14,7 +14,7 @@ const logger = require('morgan');
 
 const userRouter = require('./routes/user');
 const usersRouter = require('./routes/users');
-const photosRouter = require('./routes/photos');
+const photoRouter = require('./routes/photo');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -27,7 +27,7 @@ app.use('/static', express.static(__dirname + '/public'));
 
 app.use('/user', userRouter);
 app.use('/users', usersRouter);
-app.use('/photos', photosRouter);
+app.use('/photo', photoRouter);
 
 app.use(function(req, res, next) {
   const error = new Error('Not Found');
