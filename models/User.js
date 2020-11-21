@@ -17,8 +17,7 @@ const userSchema = new mongoose.Schema({
     type: mongoose.ObjectId,
     trim: true,
     ref: 'Photo'
-  }
-  ]
+  }],
 });
 
 module.exports = mongoose.model('User', userSchema);
