@@ -2,9 +2,12 @@ const PhotoService = require('../../services/PhotoService');
 
 exports.getPhotoByLocation = async (req, res, next) => {
   try {
-    const { lat, lng } = req.query;
-    const result = await PhotoService.getPhotoByLocation(lat, lng);
-    console.log(result);
+    (async function () {
+      const { lat, lng } = req.query;
+      console.log(lat, lng);
+      const result = await PhotoService.getPhotoByLocation(lat, lng);
+      res.json(result);
+    })();
   } catch (error) {
   }
 };

@@ -15,12 +15,10 @@ function getDistanceFromLatLonInKm(lat1,lng1,lat2,lng2) {
 }
 
 const PhotoService = {
-  getPhotoByLocation: (lat, lng) => {
-    await Photo.find({
-      $where: () => {
-        return getDistanceFromLatLonInKm(lat, lng, this.location[0], this.location[1]) < 3;
-      }
-    });
+  getPhotoByLocation: async (lat, lng) => {
+    const findResult = await Photo.find();
+
+    return findResult.filter(el => (getDistanceFromLatLonInKm(lat, lng, el.location[0], el.location[1]) < 3));
   },
 };
 
