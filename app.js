@@ -11,11 +11,11 @@ const app = express();
 
 app.use(cors());
 
-const { errorMessage } = './constants/errorMessage';
-
 const userRouter = require('./routes/user');
 const usersRouter = require('./routes/users');
-const photosRouter = require('./routes/photos');
+const photoRouter = require('./routes/photo');
+
+const { errorMessage } = './constants/errorMessage';
 const statusMessage = require('./constants/statusMessage');
 
 app.use(logger('dev'));
@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/user', userRouter);
 app.use('/users', usersRouter);
-app.use('/photos', photosRouter);
+app.use('/photo', photoRouter);
 
 app.use(function(req, res, next) {
   next(createError(404), errorMessage.invalidUrl);
