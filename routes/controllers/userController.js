@@ -1,26 +1,26 @@
 const jwt = require('jsonwebtoken');
 
 const User = require('../../models/User');
-const { statusMessage } = require('../../constants/statusMessage');
 const { errorMessage } = require('../../constants/errorMessage');
+const { statusMessage } = require('../../constants/statusMessage');
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
 exports.getLogin = async (req, res, next) => {
-  const { email, profileUrl } = req.body;
-  let ggotUser;
-
   try {
-    ggotUser = await User.findOne({ email: email });
+    const { email, profileUrl } = req.body;
+
+    let ggotUser = await User.findOne({ email: email })
+                             .populate('photos');
 
     if (!ggotUser) {
-      const userData = {
+      const newUserData = {
         email: email,
         profile_url: profileUrl,
         photos: []
       };
 
-      ggotUser = await User.create(userData);
+      ggotUser = await User.create(newUserData);
     }
 
     return res.status(201).json({
@@ -29,9 +29,10 @@ exports.getLogin = async (req, res, next) => {
       ggotUser
     });
   } catch (err) {
-    return res.status(400).json({
-      result: statusMessage.fail,
-      errMessage: errorMessage.invalidLogin
-    });
+    err.status = 401;
+    err.result = statusMessage.fail;
+    err.message = errorMessage.invalidLogin;
+
+    next(err);
   }
 };
