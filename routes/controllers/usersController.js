@@ -51,12 +51,11 @@ exports.getPhotoListByUserId = async (req, res, next) => {
   try {
     const { userId } = req.params;
     const { limit, page } = req.query;
-    console.log('userId', userId);
 
-    const photos = await Photo.find({ resistered_by: userId });
-                              // .skip(page > 0 ? (page - 1) * limit : 0)
-                              // .limit(15);
-console.log('photos', photos);
+    const photos = await Photo.find({ resistered_by: userId })
+                              .skip(page > 0 ? (page - 1) * limit : 0)
+                              .limit(15);
+
     return res.status(200).json({
       result: statusMessage.success,
       photos
