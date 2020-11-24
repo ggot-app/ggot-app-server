@@ -28,8 +28,7 @@ app.use('/users', usersRouter);
 app.use('/photo', photoRouter);
 
 app.use(function(req, res, next) {
-  // next(createError(404), errorMessage.invalidUrl);
-  res.send('존재하지 않는 페이지입니다.(test)');
+  next(createError(404), errorMessage.invalidUrl);
 });
 
 app.use(function(err, req, res, next) {
