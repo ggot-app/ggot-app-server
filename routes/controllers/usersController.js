@@ -22,7 +22,7 @@ exports.savePhotos = async (req, res, next) => {
 
     const photosInfo = {
       resistered_by: resistered_by,
-      location: [latitude, longitude],
+      location: [Number(latitude), Number(longitude)],
       photo_url_list: awsPhotoUrlList,
       description: description,
       published_at: published_at
@@ -51,11 +51,12 @@ exports.getPhotoListByUserId = async (req, res, next) => {
   try {
     const { userId } = req.params;
     const { limit, page } = req.query;
+    console.log('userId', userId);
 
-    const photos = await Photo.find({ resistered_by: userId })
-                              .skip(page > 0 ? (page - 1) * limit : 0)
-                              .limit(15);
-
+    const photos = await Photo.find({ resistered_by: userId });
+                              // .skip(page > 0 ? (page - 1) * limit : 0)
+                              // .limit(15);
+console.log('photos', photos);
     return res.status(200).json({
       result: statusMessage.success,
       photos
