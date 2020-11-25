@@ -23,6 +23,11 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use('/health-check', function (req, res, next) {
+  res.json({
+    status: 'ok'
+  });
+});
 app.use('/user', userRouter);
 app.use('/users', usersRouter);
 app.use('/photo', photoRouter);
