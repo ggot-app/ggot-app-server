@@ -1,6 +1,6 @@
 const Photo = require('../models/Photo');
 
-function getDistanceFromLatLonInKm(lat1,lng1,lat2,lng2) {
+function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
   function deg2rad(deg) {
       return deg * (Math.PI/180);
   }
@@ -15,11 +15,24 @@ function getDistanceFromLatLonInKm(lat1,lng1,lat2,lng2) {
 }
 
 const PhotoService = {
-  getPhotoByLocation: async (lat, lng) => {
+  getPhotoByLocation: async (lat, lng, limit, page) => {
     const findResult = await Photo.find();
 
-    return findResult.filter(el => (getDistanceFromLatLonInKm(lat, lng, el.location[0], el.location[1]) < 3));
-  },
+    const filteredResult = findResult.filter(el => (getDistanceFromLatLonInKm(lat, lng, el.location[0], el.location[1]) < 3));
+    const temptPage = page - 1;
+
+    let data;
+
+    if (!temptPage) {
+      data = filteredResult.slice(0, 14);
+
+      return data;
+    }
+
+    data = filteredResult.slice(limit * temptPage + 1, limit * page - 1);
+
+    return data;
+  }
 };
 
 module.exports = PhotoService;
