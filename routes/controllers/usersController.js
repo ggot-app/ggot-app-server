@@ -1,5 +1,4 @@
-const User = require('../../models/User');
-const Photo = require('../../models/Photo');
+const UsersService = require('../../services/UsersService');
 const { getPhotoUrl } = require('../middlewares/uploadPhotos');
 const { errorMessage } = require('../../constants/errorMessage');
 const { statusMessage } = require('../../constants/statusMessage');
@@ -12,6 +11,7 @@ exports.savePhotos = async (req, res, next) => {
       throw new Error(err);
     }
 
+    const { userId } = req.params;
     const {
       latitude,
       longitude,
@@ -28,14 +28,10 @@ exports.savePhotos = async (req, res, next) => {
       published_at: published_at
     };
 
-    const newPhoto = await Photo.create(photosInfo);
-
+    const newPhoto = await UsersService.savePhoto(photosInfo);
     const { _id } = newPhoto;
 
-    await User.findByIdAndUpdate(
-      req.params.userId,
-      { $addToSet: { photos: _id } }
-    );
+    await UsersService.updatePhotos(userId, _id);
 
     return res.status(200).json({
       result: statusMessage.success
@@ -52,9 +48,7 @@ exports.getPhotoListByUserId = async (req, res, next) => {
     const { userId } = req.params;
     const { limit, page } = req.query;
 
-    const photos = await Photo.find({ resistered_by: userId })
-                              .skip(page > 0 ? (page - 1) * limit : 0)
-                              .limit(15);
+    const photos = await UsersService.getFifteenPhotos(userId, limit, page);
 
     return res.status(200).json({
       result: statusMessage.success,

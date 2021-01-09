@@ -4,13 +4,9 @@ const { statusMessage } = require('../../constants/statusMessage');
 
 exports.getPhotoByLocation = async (req, res, next) => {
   try {
-    const {
-      limit,
-      page,
-      latitude,
-      longitude
-    } = req.query;
-    const photos = await PhotoService.getPhotoByLocation(latitude, longitude, limit, page);
+    const { latitude, longitude } = req.query;
+
+    const photos = await PhotoService.getPhotoByLocation(latitude, longitude);
 
     return res.status(200).json({
       result: statusMessage.success,

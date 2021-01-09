@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const User = require('../../models/User');
+const UserService = require('../../services/UserService');
 const { errorMessage } = require('../../constants/errorMessage');
 const { statusMessage } = require('../../constants/statusMessage');
 
@@ -10,8 +10,7 @@ exports.getLogin = async (req, res, next) => {
   try {
     const { email, profileUrl } = req.body;
 
-    let ggotUser = await User.findOne({ email: email })
-                             .populate('photos');
+    let ggotUser = await UserService.getExistingUser(email);
 
     if (!ggotUser) {
       const newUserData = {
@@ -20,7 +19,7 @@ exports.getLogin = async (req, res, next) => {
         photos: []
       };
 
-      ggotUser = await User.create(newUserData);
+      ggotUser = await UserService.createNewUser(newUserData);
     }
 
     return res.status(201).json({
